@@ -173,20 +173,28 @@ continuation lines)."
 
 
 (defun prm--current-line-contains-valid-sectioning-statement
-    (sectioning-command)
+    (sectioning-statement)
   "Internal function; return `t' if the current line starts a new
 subsection or end statement (i.e., the previous line is not a
 continuation and this line begins with the given sectioning
 statement) and return `nil' otherwise."
   (save-excursion
-    (forward-line -1)
-    (beginning-of-line)
-    (if (prm--current-line-ends-in-backslash)
-        nil
-      (progn
-        (forward-line 1)
-        (beginning-of-line)
-        (looking-at (concat "^[ \\t]*" sectioning-command))))))
+    (let ((prm--at-sectioning-statement-p
+           (lambda () (looking-at (concat "^[ \\t]*" sectioning-statement)))))
+      (beginning-of-line)
+      ;; if we are at the beginning, then check if we have a statement.
+      ;; Beginning the file with an 'end' does not make sense but allow it here
+      ;; anyway
+      (if (bobp)
+          (funcall prm--at-sectioning-statement-p)
+        ;; Otherwise, ensure that the previous line did not end in a backslash.
+        (progn
+          (forward-line -1)
+          (if (prm--current-line-ends-in-backslash)
+              nil
+            (progn
+              (forward-line 1)
+              (funcall prm--at-sectioning-statement-p))))))))
 
 
 (defun prm--current-line-contains-valid-subsection ()
@@ -283,21 +291,34 @@ it should be `up' or `down'."
 
 (defun prm--find-subsection (direction)
   "Internal function returning the point value of the next
-subsection in either the `up' or `down' direction."
+subsection in either the `up' or `down' direction. Return `nil'
+if no such subsection may be found (without cycling)."
   (prm--check-direction direction)
   (save-excursion
     (let ((subsection-point nil)
           (line-increment (if (eq direction 'up) -1 1))
           (at-boundary-p (if (eq direction 'up) 'bobp 'eobp)))
-        (forward-line line-increment)
-        (if (prm--current-line-contains-valid-subsection)
-            (setq subsection-point (+ (point) (current-indentation)))
-          (while (and (not (funcall at-boundary-p))
-                      (not (prm--current-line-contains-valid-subsection)))
-            (forward-line line-increment))
-          ;; we have either reached the end or a subsection
-          (if (not (funcall at-boundary-p))
-              (setq subsection-point (+ (point) (current-indentation))))))))
+      ;; bail out if we are at the beginning and going up: there can be no next
+      ;; subsection in this case
+      (beginning-of-line)
+      (if (and (bobp) (eq direction 'up))
+          nil
+        (progn
+          ;; move one line to make sure we do not return the current subsection
+          (forward-line line-increment)
+          (if (prm--current-line-contains-valid-subsection)
+              (+ (point) (current-indentation))
+            (progn
+              (while (and (not (funcall at-boundary-p))
+                          (not (prm--current-line-contains-valid-subsection)))
+                (forward-line line-increment))
+              ;; we have either reached a boundary or a subsection; a boundary
+              ;; may also be a subsection.
+              (if (funcall at-boundary-p)
+                  (if (prm--current-line-contains-valid-subsection)
+                      (+ (point) (current-indentation))
+                    nil)
+                (+ (point) (current-indentation))))))))))
 
 
 (defun prm--travel-subsection (direction)
@@ -315,7 +336,11 @@ subsection in either the `up' or `down' direction."
           (progn
             (save-excursion
               (funcall goto-cycle-boundary)
-              (setq subsection-point (prm--find-subsection direction)))
+              (setq subsection-point
+                    ;; check if we just arrived at a subsection.
+                    (if (prm--current-line-contains-valid-subsection)
+                        (+ (point) (current-indentation))
+                      (prm--find-subsection direction))))
             (if (not (eq subsection-point nil))
                 (goto-char subsection-point)))))))
 
