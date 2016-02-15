@@ -230,16 +230,8 @@ current line."
         (progn
           (message "fixing end on current line")
           (setq target-indent-value (prm--matching-subsection-indentation))))
-       ;; Check whether or not the current line is the first in a new subsection.
-       ((save-excursion
-          (forward-line -1)
-          (prm--current-line-contains-valid-subsection))
-        (progn
-          (message "current line is first in a subsection")
-          (setq target-indent-value
-                (+ prm-subsection-indentation-level
-                   previous-line-indentation-level))))
-       ;; permit any number of blank lines and capture everything else
+       ;; permit any number of blank lines and capture everything else. This
+       ;; includes opening subsections.
        (t
         (progn
           (message "could not find something, so using the last logical indentation value")
