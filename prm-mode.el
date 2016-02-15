@@ -3,7 +3,7 @@
 ;; Copyright (C) 2016 David Wells
 
 ;; Author: David Wells
-;; Version: 0.2
+;; Version: 0.3
 ;; Keywords: deal.II
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@
 ;; and indentation.
 
 ;; constants and various internals
-(defconst prm-version 0.2
+(defconst prm-version 0.3
   "alpha copy of prm-mode.")
 
 (defun prm--either-case-regexp (expression)
