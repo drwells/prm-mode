@@ -183,11 +183,13 @@ line begins with the given sectioning statement)."
 
 
 (defun prm--current-line-contains-valid-subsection ()
-  (prm--current-line-contains-valid-sectioning-statement "subsection"))
+  (prm--current-line-contains-valid-sectioning-statement
+   (prm--either-case-regexp "subsection")))
 
 
 (defun prm--current-line-contains-valid-end ()
-  (prm--current-line-contains-valid-sectioning-statement "end"))
+  (prm--current-line-contains-valid-sectioning-statement
+   (prm--either-case-regexp "end")))
 
 
 (defun prm--matching-subsection-indentation ()
@@ -207,7 +209,12 @@ command, return the indentation level of the current subsection."
 
 (defun prm-indent-current-line ()
   (interactive)
-  (let ((target-indent-value 0)
+  ;; Note that, annoyingly, looking-at is case-insensitive by default, which
+  ;; screws up indentation because it allows 'enD' and 'EnD' and other such
+  ;; things to be treated the same as 'end'. Hence, temporarily disable
+  ;; case-fold-search.
+  (let ((case-fold-search nil)
+        (target-indent-value 0)
         (previous-line-indentation-level (save-excursion
                                            (forward-line -1)
                                            (current-indentation)))
