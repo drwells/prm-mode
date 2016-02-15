@@ -28,7 +28,6 @@
 (defconst prm-version 0.1
   "alpha copy of prm-mode.")
 
-
 (defconst prm-font-lock-sectioning
   (list
    ;; For reasons I do not fully understand, emacs needs both cases (a
@@ -39,7 +38,6 @@
    '("^[ \\t]*\\(subsection\\) " 1 font-lock-keyword-face)
    '("^[ \\t]*\\(end\\)" 1 font-lock-keyword-face))
   "List containing the sectioning words for a .prm file.")
-
 
 (defconst prm-font-lock-commands
   (list
