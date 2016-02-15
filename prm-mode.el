@@ -24,25 +24,52 @@
 ;; A simple mode for deal.II parameter files that handles syntax highlighting
 ;; and indentation.
 
-;; constants and internal variables
+;; constants and various internals
 (defconst prm-version 0.2
   "alpha copy of prm-mode.")
+
+(defun prm--either-case-regexp (expression)
+  "Given a string, return a regular expression that matches the
+  purely upper case or purely lower case versions of that
+  string."
+  (regexp-opt (list (upcase expression) (downcase expression)) t))
+
+(defconst prm--case-independent-subsection
+  (prm--either-case-regexp "subsection")
+  "Regular expression matching SUBSECTION or subsection.")
+
+(defconst prm--case-independent-end
+  (prm--either-case-regexp "end")
+  "Regular expression matching END or end.")
 
 (defconst prm-font-lock-sectioning
   (list
    ;; For reasons I do not fully understand, emacs needs both cases (a
    ;; subsection with and without a trailing comment) to highlight things
    ;; correctly.
-   '("^[ \\t]*subsection \\(.*\\)$" 1 font-lock-variable-name-face)
-   '("^[ \\t]*subsection \\(.*\\)#.*$" 1 font-lock-variable-name-face)
-   '("^[ \\t]*\\(subsection\\) " 1 font-lock-keyword-face)
-   '("^[ \\t]*\\(end\\)" 1 font-lock-keyword-face))
+   (list (concat "^[ \\t]*" prm--case-independent-subsection " \\(.*\\)$")
+         2
+         font-lock-variable-name-face)
+   (list (concat "^[ \\t]*" prm--case-independent-subsection " \\(.*\\)#.*$")
+         2
+         font-lock-variable-name-face)
+   (list (concat "^[ \\t]*" prm--case-independent-subsection " ")
+         1
+         font-lock-keyword-face)
+   (list (concat "^[ \\t]*" prm--case-independent-end)
+         1
+         font-lock-keyword-face))
   "List containing the sectioning words for a .prm file.")
 
 (defconst prm-font-lock-commands
   (list
-   '("^[ \\t]*\\(include\\) " 1 font-lock-builtin-face)
-   '("^[ \\t]*\\(set\\) " 1 font-lock-builtin-face)))
+   (list (concat "^[ \\t]*" (prm--either-case-regexp "include") " ")
+         1
+         font-lock-builtin-face)
+   (list (concat "^[ \\t]*" (prm--either-case-regexp "set") " ")
+         1
+         font-lock-builtin-face))
+  "List containing the command words for a .prm file.")
 
 (defconst prm--blank-line "^[ \\t]*$")
 
