@@ -3,7 +3,7 @@
 ;; Copyright (C) 2016 David Wells
 
 ;; Author: David Wells
-;; Version: 0.1
+;; Version: 0.2
 ;; Keywords: deal.II
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@
 ;; and indentation.
 
 ;; constants and internal variables
-(defconst prm-version 0.1
+(defconst prm-version 0.2
   "alpha copy of prm-mode.")
 
 (defconst prm-font-lock-sectioning
