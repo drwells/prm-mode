@@ -180,21 +180,6 @@ command, return the indentation level of the current subsection."
     (current-indentation))))
 
 
-(defun prm--indentation-from-last-non-blank-line ()
-  "If we are at a blank line, then determine the indentation from
-the last non-blank line. Otherwise return the indentation of the
-current line."
-  (if (not (looking-at prm--blank-line))
-      (current-indentation)
-    (save-excursion
-      (while (and (looking-at prm--blank-line)
-                  (not (bobp)))
-        (forward-line -1))
-      (if (prm--current-line-contains-valid-subsection)
-          (+ prm-subsection-indentation-level (current-indentation))
-        (current-indentation)))))
-
-
 (defun prm-indent-current-line ()
   (interactive)
   (let ((target-indent-value 0)
