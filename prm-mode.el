@@ -29,9 +29,9 @@
   "alpha copy of prm-mode.")
 
 (defun prm--either-case-regexp (expression)
-  "Given a string, return a regular expression that matches the
-  purely upper case or purely lower case versions of that
-  string."
+  "Internal function: given a string, return a regular expression
+that matches the purely upper case or purely lower case versions
+of that string."
   (regexp-opt (list (upcase expression) (downcase expression)) t))
 
 (defconst prm--case-independent-subsection
@@ -98,17 +98,22 @@
 (defvar prm-permit-subsection-cycling
   t
   "Whether or not to cycle through the buffer when searching for
-  subsections.")
+subsections.")
 
 ;; internal indentation parsing functions
 (defun prm--current-line-ends-in-backslash ()
+  "Internal function checking whether or not the current line
+ends with a backslash. This does not check for multiple
+backslashes (i.e., ending a line with two backslashes is still a
+continuation) because ParameterHandler does not."
     (save-excursion
       (beginning-of-line)
       (looking-at ".*\\\\ *$")))
 
 
 (defun prm--current-line-starts-continuation ()
-  "Check whether or not the current line starts a continuation."
+  "Internal function checking whether or not the current line
+starts a continuation."
   (and
    (prm--current-line-ends-in-backslash)
    (save-excursion
@@ -121,8 +126,8 @@
 
 
 (defun prm--current-line-ends-continuation ()
-  "Check whether or not the current line finishes a
-  continuation."
+  "Internal function checking whether or not the current line
+finishes a continuation."
   (save-excursion
     (beginning-of-line)
     (if (bobp)
@@ -138,8 +143,9 @@
 
 
 (defun prm--indent-from-last-logical-line ()
-  "Return the indentation of the last non-blank logical line (that is,
-ignoring the indentation of continuation lines)."
+  "Internal function returning the indentation of the last
+non-blank logical line (that is, ignoring the indentation of
+continuation lines)."
   (save-excursion
     (if
      (bobp) (current-indentation)
@@ -168,9 +174,10 @@ ignoring the indentation of continuation lines)."
 
 (defun prm--current-line-contains-valid-sectioning-statement
     (sectioning-command)
-  "Return `t' if the current line starts a new subsection or end
-statement (i.e., the previous line is not a continuation and this
-line begins with the given sectioning statement)."
+  "Internal function; return `t' if the current line starts a new
+subsection or end statement (i.e., the previous line is not a
+continuation and this line begins with the given sectioning
+statement) and return `nil' otherwise."
   (save-excursion
     (forward-line -1)
     (beginning-of-line)
@@ -183,18 +190,23 @@ line begins with the given sectioning statement)."
 
 
 (defun prm--current-line-contains-valid-subsection ()
+  "Internal function; return `t' if the current line contains a
+valid subsection statement and `nil' otherwise."
   (prm--current-line-contains-valid-sectioning-statement
    (prm--either-case-regexp "subsection")))
 
 
 (defun prm--current-line-contains-valid-end ()
+  "Internal function; return `t' if the current line contains a
+valid end statement and `nil' otherwise."
   (prm--current-line-contains-valid-sectioning-statement
    (prm--either-case-regexp "end")))
 
 
 (defun prm--matching-subsection-indentation ()
-  "Assuming that the cursor is currently at an 'end' sectioning
-command, return the indentation level of the current subsection."
+  "Internal function; Assuming that the cursor is currently at an
+'end' sectioning command, return the indentation level of the
+current subsection."
   (save-excursion
     (let ((stack-count 1))
     (while (and (not (bobp)) (not (eq stack-count 0)))
@@ -208,6 +220,8 @@ command, return the indentation level of the current subsection."
 
 
 (defun prm-indent-current-line ()
+  "Indent the current line. This just defaults to calling
+`prm--indent-from-last-logical-line' most of the time."
   (interactive)
   ;; Note that, annoyingly, looking-at is case-insensitive by default, which
   ;; screws up indentation because it allows 'enD' and 'EnD' and other such
