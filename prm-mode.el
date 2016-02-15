@@ -304,8 +304,9 @@ subsection in either the `up' or `down' direction."
   "Internal function to handle previous and next subsections."
   (prm--check-direction direction)
   (let ((subsection-point (prm--find-subsection direction))
-        (goto-cycle-boundary (if (eq direction 'up) 'end-of-buffer
-                               'beginning-of-buffer)))
+        (goto-cycle-boundary (if (eq direction 'up)
+                                 (lambda () (goto-char (point-max)))
+                               (lambda () (goto-char (point-min))))))
     (if (not (eq subsection-point nil))
         (goto-char subsection-point)
       ;; otherwise, if enabled, go to the correct side of the buffer and try
