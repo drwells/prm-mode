@@ -63,7 +63,7 @@
 
 ;; user configurable variables
 (defvar prm-continuation-line-extra-indentation
-  2
+  4
   "Amount of extra indentation to give continuation lines.")
 
 (defvar prm-subsection-indentation-level
