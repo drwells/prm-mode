@@ -56,12 +56,12 @@
     prm-mode-syntax-table)
   "Syntax table for prm mode.")
 
-;; user configurable variables
 (defvar prm-font-lock-keywords
   (append prm-font-lock-sectioning
           prm-font-lock-commands)
   "Default highlighting expressions for prm mode.")
 
+;; user configurable variables
 (defvar prm-continuation-line-extra-indentation
   2
   "Amount of extra indentation to give continuation lines.")
