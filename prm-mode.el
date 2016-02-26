@@ -256,7 +256,6 @@ current subsection."
           (forward-line -1)
           (prm--current-line-starts-continuation))
         (progn
-          (message "previous line starts a continuation")
           (setq target-indent-value (+ previous-line-indentation-level
                                        prm-continuation-line-extra-indentation))))
        ;; if we are in the middle of a continuation, keep indenting by the same amount
@@ -264,7 +263,6 @@ current subsection."
           (forward-line -1)
           (prm--current-line-ends-in-backslash))
         (progn
-          (message "previous line ends with a backslash but does not start a continuation")
           (setq target-indent-value previous-line-indentation-level)))
        ;; We may now assume that the current line is not a continuation since the
        ;; last line did not end with a '\'.
@@ -273,13 +271,11 @@ current subsection."
        ;; opening 'subsection' statement.
        ((prm--current-line-contains-valid-end)
         (progn
-          (message "fixing end on current line")
           (setq target-indent-value (prm--matching-subsection-indentation))))
        ;; permit any number of blank lines and capture everything else. This
        ;; includes opening subsections.
        (t
         (progn
-          (message "could not find something, so using the last logical indentation value")
           (setq target-indent-value (prm--indent-from-last-logical-line))))))
     (indent-line-to target-indent-value)
     ;; If we indented a line that already had content on it, restore the
@@ -384,10 +380,8 @@ one exists."
           ;; note the weird convention: return 'nil' to continue indenting,
           ;; return t to do nothing.
           (progn
-            (message "found a valid comment")
             nil)
         (progn
-          (message "did not find valid comment")
           t)))))
 
 (defvar prm-mode-hook nil)
