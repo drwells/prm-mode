@@ -248,6 +248,9 @@ current subsection."
     (save-excursion
       (beginning-of-line)
       (cond
+       ;; if we are indenting the first line then do nothing
+       ((bobp)
+        (setq target-indent-value (current-indentation)))
        ;; see if we start a continuation: this requires extra indenting
        ((save-excursion
           (forward-line -1)
