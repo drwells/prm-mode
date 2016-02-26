@@ -3,7 +3,7 @@
 ;; Copyright (C) 2016 David Wells
 
 ;; Author: David Wells
-;; Version: 0.3
+;; Version: 0.4
 ;; Keywords: deal.II
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -25,8 +25,8 @@
 ;; and indentation.
 
 ;; constants and various internals
-(defconst prm-version 0.3
-  "alpha copy of prm-mode.")
+(defconst prm-version 0.4
+  "beta copy of prm-mode.")
 
 (defun prm--either-case-regexp (expression)
   "Internal function: given a string, return a regular expression
