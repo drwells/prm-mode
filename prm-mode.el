@@ -255,7 +255,7 @@ current subsection."
         (progn
           (message "previous line starts a continuation")
           (setq target-indent-value (+ previous-line-indentation-level
-                                           prm-continuation-line-extra-indentation))))
+                                       prm-continuation-line-extra-indentation))))
        ;; if we are in the middle of a continuation, keep indenting by the same amount
        ((save-excursion
           (forward-line -1)
