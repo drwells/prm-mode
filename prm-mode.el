@@ -279,8 +279,15 @@ current subsection."
           (message "could not find something, so using the last logical indentation value")
           (setq target-indent-value (prm--indent-from-last-logical-line))))))
     (indent-line-to target-indent-value)
-    ;; restore the relative position of the cursor.
-    (goto-char (+ initial-point (- target-indent-value initial-indentation)))))
+    ;; If we indented a line that already had content on it, restore the
+    ;; relative position of the cursor. Otherwise keep the cursor where it is
+    ;; (indent-line-to puts it at the end of the indentation).
+    (if (= (point)
+           (save-excursion
+             (end-of-line)
+             (point)))
+        (point)
+      (goto-char (+ initial-point (- target-indent-value initial-indentation))))))
 
 
 ;; navigation functions
