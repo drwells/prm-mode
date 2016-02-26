@@ -1,0 +1,3 @@
+subsection Test
+  subsection Half
+    set half = true

@@ -1,0 +1,4 @@
+SUBSECTION bobp failure \
+    baz
+  set foo = bar
+END

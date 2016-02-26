@@ -1,0 +1,7 @@
+subsection Foo
+  set foo = bar
+end
+
+SUBSECTION Baz
+  set quux = baz
+end

@@ -1,0 +1,15 @@
+subsection Foo
+  subsection Bar
+    set foo = bar\
+        subsection # should be skipped
+    # unfortunately, since emacs does syntax highlighting by regex, a line like
+    # the last (matches "^ *\(subsection\|SUBSECTION\) .*$") will always be
+    # highlighted. cc-mode also gets this case (with continuations) wrong so
+    # don't fret too much
+    set result = 42
+  end
+
+  subsection Baz
+    set adiabatic = isoparametric
+  end
+end

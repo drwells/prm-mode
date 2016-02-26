@@ -1,0 +1,11 @@
+SUBSECTION FOO
+  set baz = quux
+  set bar = baz
+END # end of subsection
+
+Subsection Bar # should not register
+# one past
+
+subsection Two
+  set two = 2
+end

@@ -1,0 +1,6 @@
+subsection Start
+  subsection Continuation
+    set foo = bar \
+
+  end
+end

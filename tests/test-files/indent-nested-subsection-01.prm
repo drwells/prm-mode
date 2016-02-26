@@ -1,0 +1,10 @@
+subsection Foo
+set foo = bar
+
+subsection Bar
+set also-foo = also-bar
+subsection Quux
+set more-foo = more-bar
+end
+end
+end

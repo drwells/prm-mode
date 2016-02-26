@@ -1,0 +1,4 @@
+subsection Start
+  subsection Continuation
+    set foo = bar \
+        baz \

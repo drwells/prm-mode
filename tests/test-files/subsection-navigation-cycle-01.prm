@@ -1,0 +1,16 @@
+subsection foo
+  set baz = quux
+  set bar = baz
+end # end of subsection
+
+# a comment
+subsection Bar
+  subsection quux
+    set foo = bar # subsection comment
+    set result = 42
+  end
+end
+
+subsection Two
+  set two = 2
+end
