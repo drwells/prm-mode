@@ -179,7 +179,10 @@ subsection or end statement (i.e., the previous line is not a
 continuation and this line begins with the given sectioning
 statement) and return `nil' otherwise."
   (save-excursion
-    (let ((prm--at-sectioning-statement-p
+    ;; see the note in prm-indent-current-line on case-fold-search for the
+    ;; rationale
+    (let ((case-fold-search nil)
+          (prm--at-sectioning-statement-p
            (lambda () (looking-at (concat "^[ \\t]*" sectioning-statement)))))
       (beginning-of-line)
       ;; if we are at the beginning, then check if we have a statement.
