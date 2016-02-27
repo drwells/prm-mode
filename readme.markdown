@@ -96,3 +96,9 @@ that keyword will be highlighted, regardless of whether or not the last line
 ended in a `\`. Similarly, as far as my experiments can tell, emacs can only
 highlight constructions on a single line, so multi-line (with continuation)
 section headings are improperly highlighted.
+
+## A screenshot
+
+This is what `prm-mode` looks like in emacs, with a slight variation on the
+`comida` theme:
+![prm-mode-pic](screenshots/comida-prm-mode.png)
