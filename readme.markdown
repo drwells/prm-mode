@@ -101,4 +101,4 @@ section headings are improperly highlighted.
 
 This is what `prm-mode` looks like in emacs, with a slight variation on the
 `comida` theme:
-![prm-mode-pic](screenshots/comida-prm-mode.png)
+![prm-mode-pic](screenshots/comida-prm-mode.png 601x404)
