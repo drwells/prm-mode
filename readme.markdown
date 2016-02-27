@@ -88,3 +88,11 @@ the line before setting the value of `baz`.
 One could argue that this is a bug in `ParameterHandler`, but if no one over the
 last fifteen years has needed to get a `#` into a string, then it is probably
 not worth worrying over.
+
+### Syntax highlighting in continuations
+
+Most emacs modes do this 'incorrectly'; if a line starts with a keyword, then
+that keyword will be highlighted, regardless of whether or not the last line
+ended in a `\`. Similarly, as far as my experiments can tell, emacs can only
+highlight constructions on a single line, so multi-line (with continuation)
+section headings are improperly highlighted.
