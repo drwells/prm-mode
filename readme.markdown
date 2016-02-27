@@ -10,11 +10,11 @@ emacs. This small mode supports:
 * Syntax highlighting
 * automatic indentation (standard, not with `electric-mode`)
 
-*This mode is not yet done!* It seems to work correctly for a couple of sample
-files (i.e., some of the large parameter files in ASPECT) but there are surely
-still bugs lurking somewhere in it. I have only tested it with emacs 24.5: I am
-not doing anything fancy so it *should* work with older versions (but I cannot
-guarantee it).
+*This mode is officially in beta, and may have wrong behavior in corner
+cases*. It seems to work correctly for a couple of sample files (i.e., some of
+the large parameter files in ASPECT) but there are surely still bugs lurking
+somewhere in it. I have only tested it with emacs 24.5: I am not doing anything
+fancy so it *should* work with older versions (but I cannot guarantee it).
 
 ## How to set it up
 
